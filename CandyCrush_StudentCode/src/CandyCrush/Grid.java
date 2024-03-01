@@ -26,7 +26,7 @@ public class Grid {
 		/* to be implemented by student */
 		for(int row = 0; row < grid.length; row++) {
 			for(int col = 0; col < grid[row].length; col++) {
-				grid[row][col] = new Candy( this.randomColor());
+				grid[row][col] = new Candy(this.randomColor());
 			}
 		}
 		
@@ -48,7 +48,7 @@ public class Grid {
 		//The method returns an integer array formatted in the following way
 		//output[0] = length of maximum sequence
 		//output[1] = index in array when the maximum sequence starts
-
+		
 		
 		
 //		if (/* check for edge cases */) {
@@ -85,7 +85,11 @@ public class Grid {
 	 */
 	public boolean isAdjacent(int row1, int col1, int row2, int col2) {
 		
-		
+		if(row1 + 1 == row2 || row1 - 1 == row2) {
+			if(col1 + 1 == col2 || col1 - 1 == col2) {
+				return true;
+			}
+		}
 		
 		return false;
 	}
@@ -100,7 +104,9 @@ public class Grid {
 		
 		/* to be implemented */
 		/* the 2D array is the instance variable at the beginning of this class */
-		
+		Candy cur = grid[r1][c1];
+		grid[r1][c1] = grid[r2][c2];
+		grid[r2][c2] = cur;		
 	}
 	
 	
