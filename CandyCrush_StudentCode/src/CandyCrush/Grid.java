@@ -57,14 +57,14 @@ public class Grid {
         }
 
 		//Suggested variables - update how they are initialized
-        int maxLength 		= -1;	//length of longest sequence
-        int currentLength 	= 0;	//current length of sequence
+        int maxLength 		= 1;	//length of longest sequence
+        int currentLength 	= 1;	//current length of sequence
         int startIndex 		= -1;	//starting index of longest sequence so far
         int currentStartIndex = -1; //temp var for tracking current starting index
         
-        for (int i = 1; i < candies.length; i++) {
-            if(candies[i-1] == candies[i]) {
-            	if(currentLength == 0) {
+        for (int i = 1; i < candies.length - 1; i++) {
+            if(candies[i] == candies[i + 1]) {
+            	if(currentLength == 1) {
             		currentStartIndex = i;
             	}
             	currentLength++;
@@ -73,9 +73,8 @@ public class Grid {
             		startIndex = currentStartIndex;
             	}
             } else {
-            	currentLength = 0;
+            	currentLength = 1;
             }
-        	
         }
 
         //Return the result 
@@ -96,8 +95,8 @@ public class Grid {
 	 */
 	public boolean isAdjacent(int row1, int col1, int row2, int col2) {
 		
-		if ( ((row1 == row2) && (col1 + 1 == col2) || (row1 == row2) && (col1 - 1 == col2)) || ((col1 == col2) && (row1 + 1 == row2) || (col1 == col2) && (row1 - 1 == row2)) ) return true;
-		
+		if (row1 == row2 && ((col1 + 1 == col2) || (col1 - 1 == col2)) 
+		|| col1 == col2 && ((row1 + 1 == row2) || (row1 - 1 == row2))) return true;
 		return false;
 	}
 	
@@ -111,9 +110,12 @@ public class Grid {
 		
 		/* to be implemented */
 		/* the 2D array is the instance variable at the beginning of this class */
-		Candy cur = grid[r1][c1];
-		grid[r1][c1] = grid[r2][c2];
-		grid[r2][c2] = cur;
+
+		if(isAdjacent(r1, c1, r2, c2)) {
+			Candy cur = grid[r1][c1];
+			grid[r1][c1] = grid[r2][c2];
+			grid[r2][c2] = cur;
+		}
 			
 	}
 	
