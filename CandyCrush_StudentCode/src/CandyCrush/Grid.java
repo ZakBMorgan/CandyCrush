@@ -51,27 +51,38 @@ public class Grid {
 		
 		
 		
-//		if (/* check for edge cases */) {
-//            // Handle edge case where the array is empty or null
-//            return new int[]{}; 	//<--- Finish
-//        }
+		if (candies.length == 0 || candies == null) {
+            // Handle edge case where the array is empty or null
+            return new int[]{0, -1}; 	//<--- Finish
+        }
 
 		//Suggested variables - update how they are initialized
         int maxLength 		= -1;	//length of longest sequence
-        int currentLength 	= -1;	//current length of sequence
+        int currentLength 	= 0;	//current length of sequence
         int startIndex 		= -1;	//starting index of longest sequence so far
         int currentStartIndex = -1; //temp var for tracking current starting index
         
-       /* for (int i = ____________; i < ____________; i++) {
-            
+        for (int i = 1; i < candies.length; i++) {
+            if(candies[i-1] == candies[i]) {
+            	if(currentLength == 0) {
+            		currentStartIndex = i;
+            	}
+            	currentLength++;
+            	if(currentLength > maxLength) {
+            		maxLength = currentLength;
+            		startIndex = currentStartIndex;
+            	}
+            } else {
+            	currentLength = 0;
+            }
         	
-        } */
+        }
 
         //Return the result 
-        //int[] result = {____, ____}; //maxLength, startIndex
+        int[] result = {maxLength, startIndex}; //maxLength, startIndex
         
-        return new int[]{}; //<--- replace with yours after you have determined the
-        					//required 1d arry
+        return result; //<--- replace with yours after you have determined the
+        					//required 1d array
         
         
         
@@ -85,11 +96,7 @@ public class Grid {
 	 */
 	public boolean isAdjacent(int row1, int col1, int row2, int col2) {
 		
-		if(row1 + 1 == row2 || row1 - 1 == row2) {
-			if(col1 + 1 == col2 || col1 - 1 == col2) {
-				return true;
-			}
-		}
+		if ( ((row1 == row2) && (col1 + 1 == col2) || (row1 == row2) && (col1 - 1 == col2)) || ((col1 == col2) && (row1 + 1 == row2) || (col1 == col2) && (row1 - 1 == row2)) ) return true;
 		
 		return false;
 	}
@@ -106,7 +113,8 @@ public class Grid {
 		/* the 2D array is the instance variable at the beginning of this class */
 		Candy cur = grid[r1][c1];
 		grid[r1][c1] = grid[r2][c2];
-		grid[r2][c2] = cur;		
+		grid[r2][c2] = cur;
+			
 	}
 	
 	
@@ -120,11 +128,11 @@ public class Grid {
 	*/
 	public int inARow() {
 
-		//traverse the grid row-by-row
-		//use the findMaximum method that you wrote to get the max sequence
-		//of the row
-		//return the row if sequece is 3 or more otherwise check the next row
-		
+		for(int i = 0; i < grid.length; i++) {
+			if(findMaximum(grid[i])[0] >= 3) {
+				return i;
+			}
+		}	
         return -1;
 	}
 	
@@ -134,8 +142,14 @@ public class Grid {
 	 * @return 1D array of Candy object representing a column
 	 */
 	public Candy[] getColumn(int col) {
-       
-        return null;
+		
+		Candy[] getCol = new Candy[10];
+		
+		for(int i = 0; i < getCol.length; i++) {
+			
+			getCol[i] = grid[i][col];
+		}
+        return getCol;
 		
 	}
 	
@@ -147,8 +161,13 @@ public class Grid {
 	 */
 	public int inAColumn() {
 
-		
+		for(int i = 0; i < grid[0].length; i++) {
+			if(findMaximum(getColumn(i))[0] >= 3) {
+				return i;
+			}
+		}
         return -1;
+        
 	}
 	
 	
